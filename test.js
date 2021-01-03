@@ -113,4 +113,28 @@ describe('Regex Combiner', function () {
       expect(testStr).to.match(combined);
     });
   });
+
+  it('generates matches longest possible pattern', function () {
+    var combined = regexCombiner([
+      'abc',
+      'abcabc',
+      'abcabcd',
+      'abcabcde'
+    ]);
+    [
+      'abc',
+      'abcabc',
+      'abcabcd',
+      'abcabcde',
+    ].forEach(function (testStr) {
+      expect(testStr).to.match(combined);
+      var match;
+      var matches = [];
+      var globalRegex = new RegExp(combined, 'g');
+      while ((match = globalRegex.exec(testStr)) !== null) {
+        matches.push(match[0]);
+      }
+      expect(matches).to.contain(testStr);
+    });
+  });
 });

@@ -98,6 +98,9 @@ function trieToRegexStr(trie) {
       return key + trieToRegexStr(trie[key]);
     }
   });
+  keys.sort(function(x, y) {
+    return x.length > y.length ? -1 : 0
+  });
   var isSingleCharsClass = keys.every(function(key) {
     return key.length == 1;
   });
