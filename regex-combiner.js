@@ -91,11 +91,17 @@ function trieToRegexStr(trie) {
   if (keys.length === 0) {
     return '';
   }
-  return '(?:' + keys.map(function (key) {
+  keys = keys.map(function (key) {
     if (key.substr(-3) === ender) {
       return key.substr(0, key.length - 3);
     } else {
       return key + trieToRegexStr(trie[key]);
     }
-  }).join('|') + ')';
+  });
+  var isSingleCharsClass = keys.every(function(key) {
+    return key.length == 1;
+  });
+  return isSingleCharsClass ?
+    '[' + keys.join('') + ']' :
+    '(?:' + keys.join('|') + ')';
 }

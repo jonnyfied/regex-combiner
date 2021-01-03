@@ -95,4 +95,22 @@ describe('Regex Combiner', function () {
     expect('fo').not.to.match(combined);
     expect('bat').not.to.match(combined);
   });
+
+  it('generates character class for single characters', function () {
+    var combined = regexCombiner([
+      'aab',
+      'aba',
+      'abc',
+      'abd',
+      'a[ce]'
+    ]);
+    expect(combined.toString()).to.contain('[acd]');
+    [
+      'abc',
+      'ae',
+      'abcd',
+    ].forEach(function (testStr) {
+      expect(testStr).to.match(combined);
+    });
+  });
 });
