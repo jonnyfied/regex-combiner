@@ -108,7 +108,36 @@ describe('Regex Combiner', function () {
     [
       'abc',
       'ae',
-      'abcd',
+      'abcd'
+    ].forEach(function (testStr) {
+      expect(testStr).to.match(combined);
+    });
+  });
+
+  it('generates flattened pattern when there is one or zero check', function () {
+    var combined = regexCombiner([
+      'a',
+      'ab'
+    ]);
+    expect(combined.toString()).to.contain('ab?');
+    [
+      'a',
+      'ab',
+      'abaa',
+    ].forEach(function (testStr) {
+      expect(testStr).to.match(combined);
+    });
+  });
+
+  it('generates flattened pattern without non-capturing group', function () {
+    var combined = regexCombiner([
+      'ab',
+      'ab',
+    ]);
+    expect(combined.toString()).to.not.contain('?');
+    [
+      'ab',
+      'aaaab',
     ].forEach(function (testStr) {
       expect(testStr).to.match(combined);
     });
@@ -125,7 +154,7 @@ describe('Regex Combiner', function () {
       'abc',
       'abcabc',
       'abcabcd',
-      'abcabcde',
+      'abcabcde'
     ].forEach(function (testStr) {
       expect(testStr).to.match(combined);
       var match;

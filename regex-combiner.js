@@ -101,10 +101,19 @@ function trieToRegexStr(trie) {
   keys.sort(function(x, y) {
     return x.length > y.length ? -1 : 0
   });
-  var isSingleCharsClass = keys.every(function(key) {
-    return key.length == 1;
+  var isSingleOrEmptyCharsClass = keys.every(function(key) {
+    return key.length == 1 || key.length == 0;
   });
-  return isSingleCharsClass ?
-    '[' + keys.join('') + ']' :
-    '(?:' + keys.join('|') + ')';
+  if (isSingleOrEmptyCharsClass) {
+    var hasZeroCharsCases = keys.some(function(key) {
+      return key.length == 0;
+    });
+    if (keys.length == 1) {
+      return keys.join('');
+    } else if (keys.length == 2 && hasZeroCharsCases) {
+      return keys.join('') + '?';
+    }
+    return '[' + keys.join('') + (hasZeroCharsCases ? ']?' : ']');
+  }
+  return keys.length < 2 ? keys.join('') : '(?:' + keys.join('|') + ')';
 }
