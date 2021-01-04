@@ -114,7 +114,7 @@ describe('Regex Combiner', function () {
     });
   });
 
-  it('generates matches longest possible pattern', function () {
+  it('matches longest possible pattern', function () {
     var combined = regexCombiner([
       'abc',
       'abcabc',
