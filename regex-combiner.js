@@ -101,13 +101,15 @@ function trieToRegexStr(trie) {
   keys.sort(function(x, y) {
     return x.length > y.length ? -1 : 0
   });
+  var hasZeroCharsCases = false;
   var isSingleOrEmptyCharsClass = keys.every(function(key) {
-    return key.length == 1 || key.length == 0;
+    if (key.length == 0) {
+      hasZeroCharsCases = true;
+      return true;
+    }
+    return key.length == 1;
   });
   if (isSingleOrEmptyCharsClass) {
-    var hasZeroCharsCases = keys.some(function(key) {
-      return key.length == 0;
-    });
     if (keys.length == 1) {
       return keys.join('');
     } else if (keys.length == 2 && hasZeroCharsCases) {
